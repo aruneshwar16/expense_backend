@@ -11,17 +11,18 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: '*', // Allow all origins
-  methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  origin: ['http://localhost:5173', 'https://expanse-tracker-gray.vercel.app'],
+  methods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH'],
+  credentials: true
 }));
 app.use(express.json());
 
 // MongoDB Connection
+const MONGODB_URI = 'mongodb+srv://aruneshwar:aruneshwar16@cluster0.q953g.mongodb.net/Expense-tracker';
 console.log('Connecting to MongoDB...');
-mongoose.connect('mongodb://localhost:27017/expense')
-.then(() => console.log('MongoDB Connected Successfully!'))
-.catch(err => console.error('MongoDB Connection Error:', err));
+mongoose.connect(MONGODB_URI)
+  .then(() => console.log('MongoDB Connected Successfully!'))
+  .catch(err => console.error('MongoDB Connection Error:', err));
 
 // Routes
 app.get('/api/transactions', async (req, res) => {
@@ -58,8 +59,8 @@ app.delete('/api/transactions/:id', async (req, res) => {
   }
 });
 
-const PORT = 9004;
+const PORT = process.env.PORT || 9004;
 
-app.listen(PORT,() => {
-  console.log(`Server running at http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running on port ${PORT}`);
 });
