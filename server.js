@@ -59,8 +59,7 @@ app.delete('/api/transactions/:id', async (req, res) => {
 });
 
 const PORT = 9004;
-const HOST = '172.17.7.209';
 
-app.listen(PORT, HOST, () => {
-  console.log(`Server running at http://${HOST}:${PORT}`);
+app.listen(PORT,() => {
+  console.log(`Server running at http://localhost:${PORT}`);
 });
