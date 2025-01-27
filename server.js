@@ -19,7 +19,7 @@ app.use(express.json());
 
 // MongoDB Connection
 console.log('Connecting to MongoDB...');
-mongoose.connect('mongodb://127.0.0.1:27017/expense')
+mongoose.connect('mongodb://localhost:27017/expense')
 .then(() => console.log('MongoDB Connected Successfully!'))
 .catch(err => console.error('MongoDB Connection Error:', err));
 
