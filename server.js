@@ -11,18 +11,21 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://expanse-tracker-gray.vercel.app'],
+  origin: process.env.CORS_ORIGIN || ['http://localhost:5173', 'https://arunexpense1.netlify.app'],
   methods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH'],
   credentials: true
 }));
 app.use(express.json());
 
 // MongoDB Connection
-const MONGODB_URI = 'mongodb+srv://aruneshwar:aruneshwar16@cluster0.q953g.mongodb.net/Expense-tracker';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://aruneshwar:aruneshwar16@cluster0.q953g.mongodb.net/Expense-tracker';
 console.log('Connecting to MongoDB...');
 mongoose.connect(MONGODB_URI)
   .then(() => console.log('MongoDB Connected Successfully!'))
-  .catch(err => console.error('MongoDB Connection Error:', err));
+  .catch(err => {
+    console.error('MongoDB Connection Error:', err);
+    process.exit(1); // Exit if cannot connect to database
+  });
 
 // Routes
 app.get('/api/transactions', async (req, res) => {
